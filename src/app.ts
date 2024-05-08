@@ -16,14 +16,19 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import bodyParser from "body-parser"
+import cors from "cors"
 
 class App {
   public app: express.Application
   public port: string | number
+  private routes: any
 
-  constructor() {
-    this.port=8000
+  constructor(routes: any) {
+    this.port=3000
     this.app=express()
+    this.routes = routes
+
+    this.initializeMiddlewares()
   }
 
   public listen() {
@@ -43,6 +48,24 @@ class App {
 
   public getServer() {
     return this.app
+  }
+
+  private initializeMiddlewares() {
+    this.app.use(bodyParser.urlencoded({extended: false}))
+    this.app.use(express.json())
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cors())
+    this.app.use(cookieParser())
+
+    this.initializeRoutes(this.routes);
+
+    
+  }
+
+  private initializeRoutes(routes: any){
+    routes.forEach((route: any) => {
+      this.app.use("/api", route.router)
+    })
   }
 }
 
