@@ -1,18 +1,3 @@
-// import express from 'express';
-
-// const app = express();
-// const port = 3000;
-
-// app.get('/', (req, res) => {
-//   res.send('Hello, TypeScript with me!');
-// });
-
-
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`);
-// });
-
-
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import bodyParser from "body-parser"
@@ -57,9 +42,7 @@ class App {
     this.app.use(cors())
     this.app.use(cookieParser())
 
-    this.initializeRoutes(this.routes);
-
-    
+    this.initializeRoutes(this.routes); 
   }
 
   private initializeRoutes(routes: any){
