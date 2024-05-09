@@ -10,7 +10,7 @@ class OrganisationRoutes{
     this.initializeOrganisationRoutes(`${this.organisationPath}`)
   }
 
-  private initializeOrganisationRoutes(prefix: string){
+  private initializeOrganisationRoutes(prefix: string) {
     this.router.get(`${prefix}`, this.organisationController.getOrganisations)
     this.router.get(`${prefix}/:id`, this.organisationController.getOrganisation)
     this.router.post(`${prefix}`, this.organisationController.addOrganisation)

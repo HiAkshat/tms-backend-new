@@ -15,12 +15,12 @@ class OrganisationService {
     return await this.organisationDao.addOrganisation(requestBody)
   }
 
-  public updateOrganisation = async (requuestParams: Object, requestBody: Object) => {
-    return await this.organisationDao.updateOrganisation(requuestParams, requestBody)
+  public updateOrganisation = async (requestParams: Object, requestBody: Object) => {
+    return await this.organisationDao.updateOrganisation(requestParams, requestBody)
   }
 
-  public deleteOrganisation = async (requuestParams: Object) => {
-    return await this.organisationDao.deleteOrganisation(requuestParams)
+  public deleteOrganisation = async (requestParams: Object) => {
+    return await this.organisationDao.deleteOrganisation(requestParams)
   }
 }
 
