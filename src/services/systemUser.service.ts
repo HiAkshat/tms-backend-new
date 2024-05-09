@@ -1,8 +1,8 @@
 import SystemUserDao from "../dao/systemUser.dao";
-import OtpHelper from "../helpers/Otp";
-import titleCase from "../helpers/titleCase";
+import OtpHelper from "../helpers/Otp.helper";
+import titleCase from "../helpers/titleCase.helper";
 
-import TitleCaseHelper from "../helpers/titleCase";
+import TitleCaseHelper from "../helpers/titleCase.helper";
 
 class SystemUserService {
   private systemUserDao = new SystemUserDao()

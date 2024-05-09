@@ -1,7 +1,7 @@
 import OrganisationUserDao from "../dao/organisationUser.dao";
 
-import OtpHelper from "../helpers/Otp";
-import TitleCaseHelper from "../helpers/titleCase";
+import OtpHelper from "../helpers/Otp.helper";
+import TitleCaseHelper from "../helpers/titleCase.helper";
 
 class OrganisationUserService {
   private organisationUserDao = new OrganisationUserDao()
