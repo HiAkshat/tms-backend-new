@@ -82,6 +82,16 @@ class OrganisationUserController {
       res.status(400).json(error)
     }
   }
+
+  public sendOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const requestParams = req.params
+    try {
+      const responseBody = await this.organisationUserService.sendOtp(requestParams)
+      res.status(200).json(responseBody)
+    } catch (error) {
+      res.status(400).json(error)
+    }
+  }
 }
 
  export default OrganisationUserController
