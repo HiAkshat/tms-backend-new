@@ -1,13 +1,5 @@
 import { model, Schema, Document } from 'mongoose';
-
-export interface SystemUser extends Document {
-  email_id: string,
-  first_name: string,
-  last_name: string,
-  dob: Date,
-  otp?: number,
-  otpExpiration?: Date
-}
+import SystemUserType from '../typings/systemUser';
 
 const systemUserSchema = new Schema({
   email_id: { type: String, required: true, unique: true },
@@ -18,5 +10,5 @@ const systemUserSchema = new Schema({
   otpExpiration: { type: Date }, // Store OTP expiration time
 });
 
-const SystemUserModel = model<SystemUser>("systemuser", systemUserSchema)
+const SystemUserModel = model<SystemUserType>("systemuser", systemUserSchema)
 export default SystemUserModel

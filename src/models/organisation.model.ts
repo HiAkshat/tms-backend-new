@@ -1,10 +1,5 @@
 import { model, Schema, Document } from 'mongoose';
-
-export interface Organisation extends Document {
-  organisation_name: string,
-  display_name: string,
-  total_ticket: number
-}
+import OrganisationType from '../typings/organisation';
 
 const organisationSchema = new Schema({
   organisation_name: { type: String, unique: true, required: true },
@@ -12,5 +7,5 @@ const organisationSchema = new Schema({
   total_tickets: { type: Number, default: 0}
 });
 
-const organisationModel = model<Organisation>("organisation", organisationSchema)
+const organisationModel = model<OrganisationType>("organisation", organisationSchema)
 export default organisationModel
