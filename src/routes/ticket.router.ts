@@ -7,10 +7,10 @@ class TicketRoutes{
   public ticketController = new TicketController()
 
   constructor(){
-    this.initializeSystemUserRoutes(`${this.ticketPath}`)
+    this.initializeTicketRoutes(`${this.ticketPath}`)
   }
 
-  private initializeSystemUserRoutes(prefix: string){
+  private initializeTicketRoutes(prefix: string){
     // GET
     this.router.get(`${prefix}/organisation/:id`, this.ticketController.getOrgTickets)
     this.router.get(`${prefix}/:id`, this.ticketController.getTicket)
