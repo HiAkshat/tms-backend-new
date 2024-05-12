@@ -92,6 +92,18 @@ class OrganisationUserController {
       res.status(400).json(error)
     }
   }
+
+  public verifyOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const requestBody = req.body
+    try {
+      const responseBody = await this.organisationUserService.verifyOtp(requestBody)
+      if (responseBody.valid) res.status(200).json(responseBody)
+      else res.status(400).json(responseBody)
+    } catch (error) {
+      res.status(400).json({error})
+    }
+  }
+
 }
 
  export default OrganisationUserController

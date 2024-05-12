@@ -1,4 +1,8 @@
 import nodemailer from "nodemailer"
+import SystemUserType from "../typings/systemUser";
+import OrganisationUserType from "../typings/organisationUser";
+
+import jwt from "jsonwebtoken"
 
 class OtpHelper {
   public sendOTP = async (email_id: string, otp: number) => {
@@ -35,6 +39,18 @@ class OtpHelper {
   
     } catch (error) {
       console.error('Error:', error);
+    }
+  }
+
+  public verifyOtp = async (otp: number, user: SystemUserType | OrganisationUserType) => {
+    try {
+      if (user.otp == otp && user.otpExpiration && user.otpExpiration.getTime() > Date.now()) {
+        const accessToken = jwt.sign({user}, "thisisthekey", { expiresIn: '5h' });
+        return { accessToken, valid: true, message: 'OTP is valid' }
+      }
+      else return { valid: false, message: 'OTP is invalid' }
+    } catch (error) {
+      throw error
     }
   }
 }

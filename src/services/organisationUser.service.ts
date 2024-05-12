@@ -5,6 +5,7 @@ import TitleCaseHelper from "../helpers/titleCase.helper";
 
 class OrganisationUserService {
   private organisationUserDao = new OrganisationUserDao()
+  private otpHelper = new OtpHelper()
 
   public fetchOrganisationUsers = async (requestBody: Object) => {
     return await this.organisationUserDao.getOrganisationUsers()
@@ -57,9 +58,21 @@ class OrganisationUserService {
     }
 
     await this.organisationUserDao.updateOrganisationUser({id: user._id}, newUserData)
-    const otpHelper = new OtpHelper()
-    const res = await otpHelper.sendOTP(user.email_id, otp)
-    return {res: res}
+
+    const res = await this.otpHelper.sendOTP(user.email_id, otp)
+    return res
+  }
+
+  public verifyOtp = async (requestBody: any) => {
+    try {
+      const user = await this.organisationUserDao.getOrganisationUserByEmail(requestBody)
+      if (!user) throw new Error("User not found!")
+      const res = await this.otpHelper.verifyOtp(requestBody.otp, user)
+      return res
+    } catch (error) {
+      throw error
+    }
+
   }
 }
 

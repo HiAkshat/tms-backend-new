@@ -20,6 +20,7 @@ class OrganisationUserRoutes{
     // POST
     this.router.post(`${prefix}`, this.organisationUserController.addOrganisationUser)
     this.router.post(`${prefix}/sendOtp/:email_id`, this.organisationUserController.sendOtp)
+    this.router.post(`${prefix}/verifyOtp`, this.organisationUserController.verifyOtp)
     
     // DELETE
     this.router.delete(`${prefix}/:id`, this.organisationUserController.deleteOrganisationUser)
