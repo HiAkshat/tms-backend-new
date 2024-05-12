@@ -15,11 +15,15 @@ class SystemUserRoutes{
     this.router.get(`${prefix}`, this.systemUserController.getSystemUsers)
     this.router.get(`${prefix}/:id`, this.systemUserController.getSystemUser)
     this.router.get(`${prefix}/email/:email_id`, this.systemUserController.getSystemUserByEmail)
+    
     // post
     this.router.post(`${prefix}`, this.systemUserController.addSystemUser)
     this.router.post(`${prefix}/sendOtp/:email_id`, this.systemUserController.sendOtp)
+    this.router.post(`${prefix}/verifyOtp`, this.systemUserController.verifyOtp)
+    
     // DELETE
     this.router.delete(`${prefix}/:id`, this.systemUserController.deleteSystemUser)
+    
     // PUT
     this.router.put(`${prefix}/:id`, this.systemUserController.updateSystemUser)
     

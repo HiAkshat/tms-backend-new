@@ -72,7 +72,6 @@ class OrganisationUserService {
     } catch (error) {
       throw error
     }
-
   }
 }
 

@@ -6,6 +6,7 @@ import TitleCaseHelper from "../helpers/titleCase.helper";
 
 class SystemUserService {
   private systemUserDao = new SystemUserDao()
+  private otpHelper = new OtpHelper()
 
   public fetchSystemUsers = async (requestBody: Object) => {
     console.log("HEYINSERVICE")
@@ -55,9 +56,19 @@ class SystemUserService {
     }
 
     await this.systemUserDao.updateSystemUser({id: user._id}, newUserData)
-    const otpHelper = new OtpHelper()
-    const res = await otpHelper.sendOTP(user.email_id, otp)
+    const res = await this.otpHelper.sendOTP(user.email_id, otp)
     return {res: res}
+  }
+
+  public verifyOtp = async (requestBody: any) => {
+    try {
+      const user = await this.systemUserDao.getSystemUserByEmail(requestBody)
+      if (!user) throw new Error("User not found!")
+      const res = await this.otpHelper.verifyOtp(requestBody.otp, user)
+      return res
+    } catch (error) {
+      throw error
+    }
   }
 }
 
