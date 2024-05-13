@@ -88,8 +88,8 @@ class OrganisationUserController {
     try {
       const responseBody = await this.organisationUserService.sendOtp(requestParams)
       res.status(200).json(responseBody)
-    } catch (error) {
-      res.status(400).json(error)
+    } catch (error: any) {
+      res.status(400).json({success: false, message: error.message})
     }
   }
 

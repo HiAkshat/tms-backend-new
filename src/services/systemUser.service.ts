@@ -38,26 +38,32 @@ class SystemUserService {
   }
 
   public sendOtp = async (requestParams: any) => {
-    const user = await this.fetchSystemUserByEmail(requestParams)
-    if (!user){
-      throw new Error("User not found!")
+    try {
+      const user = await this.fetchSystemUserByEmail(requestParams)
+      if (!user){
+        throw new Error("User not found!")
+      }
+  
+      const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
+      console.log(otp)
+      var dt1 = (new Date()).getTime()
+      
+      // { email_id, first_name, last_name, dob, organisation, joining_date }
+      const newUserData = {
+        email_id: user.email_id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        otp,
+        otpExpiration: new Date(dt1+900000)
+      }
+  
+      await this.systemUserDao.updateSystemUser({id: user._id}, newUserData)
+      const res = await this.otpHelper.sendOTP(user.email_id, otp)
+      return {res: res}
+      
+    } catch (error) {
+      throw error
     }
-
-    const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
-    var dt1 = (new Date()).getTime()
-    
-    // { email_id, first_name, last_name, dob, organisation, joining_date }
-    const newUserData = {
-      email_id: user.email_id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      otp,
-      otpExpiration: new Date(dt1+900000)
-    }
-
-    await this.systemUserDao.updateSystemUser({id: user._id}, newUserData)
-    const res = await this.otpHelper.sendOTP(user.email_id, otp)
-    return {res: res}
   }
 
   public verifyOtp = async (requestBody: any) => {
