@@ -5,10 +5,10 @@ class OrganisationController {
   public organisationService = new OrganisationService()
 
   public getOrganisations = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const requestQuery = req.query
+    const {page, pageSize} = req.query
 
     try {
-      const responseBody = await this.organisationService.fetchOrganisations(requestQuery)
+      const responseBody = await this.organisationService.fetchOrganisations(page?.toString(), pageSize?.toString())
       
       res.status(200).json(responseBody)
     } catch (error) {
@@ -17,9 +17,9 @@ class OrganisationController {
   }
 
   public getOrganisation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+    const {id} = req.params
     try {
-      const responseBody = await this.organisationService.fetchOrganisation(requestParams)
+      const responseBody = await this.organisationService.fetchOrganisation(id)
       res.status(200).json(responseBody)
       console.log("Organisation data retrieved!")
     } catch (error) {
@@ -28,9 +28,9 @@ class OrganisationController {
   }
 
   public addOrganisation = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestBody = req.body
+    const organisation = req.body
     try {
-      const responseBody = await this.organisationService.postOrganisation(requestBody)
+      const responseBody = await this.organisationService.postOrganisation(organisation)
       res.status(200).json(responseBody)
       console.log("Organisation added!")
     } catch (error) {
@@ -39,10 +39,10 @@ class OrganisationController {
   }
 
   public udpateOrganisation = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestBody = req.body
-    const requestParams = req.params
+    const {id} = req.params
+    const organisation = req.body
     try {
-      const responseBody = await this.organisationService.updateOrganisation(requestParams, requestBody)
+      const responseBody = await this.organisationService.updateOrganisation(id, organisation)
       res.status(200).json(responseBody)
       console.log("Organisation updated!")
     } catch (error) {
@@ -51,9 +51,9 @@ class OrganisationController {
   }
 
   public deleteOrganisation = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+    const {id} = req.params
     try {
-      const responseBody = await this.organisationService.deleteOrganisation(requestParams)
+      const responseBody = await this.organisationService.deleteOrganisation(id)
       res.status(200).json(responseBody)
       console.log("Organisation deleted!")
     } catch (error) {
@@ -61,6 +61,5 @@ class OrganisationController {
     }
   }
 }
-
 
  export default OrganisationController

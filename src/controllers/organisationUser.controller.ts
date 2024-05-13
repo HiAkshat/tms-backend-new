@@ -4,96 +4,97 @@ import OrganisationUserService from "../services/organisationUser.service";
 class OrganisationUserController {
   public organisationUserService = new OrganisationUserService()
 
-  public getOrganisationUsers = async (req: any, res: Response, next: NextFunction): Promise<void> => {
-    const requestQuery = req.query
+  public getOrganisationUsers = async (req: Request , res: Response, next: NextFunction): Promise<void> => {
+    const {page, pageSize} = req.query
 
     try {
-      const responseBody = await this.organisationUserService.fetchOrganisationUsers(requestQuery)
+      const responseBody = await this.organisationUserService.fetchOrganisationUsers(page?.toString(), pageSize?.toString())
       res.status(200).json(responseBody)
-      console.log("OrganisationUsers retrieved!")
+      console.log("Organisation Users retrieved!")
     } catch (error) {
       res.status(400).json({error})
     }
   }
 
-  public getOrganisationUser = async (req: any, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+  public getOrganisationUser = async (req: Request , res: Response, next: NextFunction): Promise<void> => {
+    const {id} = req.params
     try {
-      const responseBody = await this.organisationUserService.fetchOrganisationUser(requestParams)
+      const responseBody = await this.organisationUserService.fetchOrganisationUser(id)
       res.status(200).json(responseBody)
-      console.log("OrganisationUser data retrieved!")
+      console.log("Organisation User data retrieved!")
     } catch (error) {
       res.status(400).json(error)
     }
   }
 
-  public getOrganisationUserByOrgID = async (req: any, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+  public getOrganisationUserByOrgID = async (req: Request , res: Response, next: NextFunction): Promise<void> => {
+    const {id} = req.params
     try {
-      const responseBody = await this.organisationUserService.fetchOrganisationUserByOrgID(requestParams)
+      const responseBody = await this.organisationUserService.fetchOrganisationUserByOrgID(id)
       res.status(200).json(responseBody)
-      console.log("OrganisationUser data retrieved!")
+      console.log("Organisation User data retrieved!")
     } catch (error) {
       res.status(400).json(error)
     }
   }
 
-  public getOrganisationUserByEmail = async (req: any, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+  public getOrganisationUserByEmail = async (req: Request , res: Response, next: NextFunction): Promise<void> => {
+    const {email_id} = req.params
     try {
-      const responseBody = await this.organisationUserService.fetchOrganisationUserByEmail(requestParams)
+      const responseBody = await this.organisationUserService.fetchOrganisationUserByEmail(email_id)
       res.status(200).json(responseBody)
-      console.log("OrganisationUser data retrieved!")
+      console.log("Organisation User data retrieved!")
     } catch (error) {
       res.status(400).json(error)
     }
   }
 
-  public addOrganisationUser = async (req: any, res:Response, next: NextFunction): Promise<void> => {
-    const requestBody = req.body
+  public addOrganisationUser = async (req: Request , res:Response, next: NextFunction): Promise<void> => {
+    const {organisation_user} = req.body
     try {
-      const responseBody = await this.organisationUserService.postOrganisationUser(requestBody)
+      const responseBody = await this.organisationUserService.postOrganisationUser(organisation_user)
       res.status(200).json(responseBody)
-      console.log("OrganisationUser added!")
+      console.log("Organisation User added!")
     } catch (error) {
       res.status(400).json(error)
     }
   }
 
-  public updateOrganisationUser = async (req: any, res:Response, next: NextFunction): Promise<void> => {
-    const requestBody = req.body
-    const requestParams = req.params
+  public updateOrganisationUser = async (req: Request , res:Response, next: NextFunction): Promise<void> => {
+    const {id} = req.params
+    const organisation_user = req.body
+
     try {
-      const responseBody = await this.organisationUserService.updateOrganisationUser(requestParams, requestBody)
+      const responseBody = await this.organisationUserService.updateOrganisationUser(id, organisation_user)
       res.status(200).json(responseBody)
-      console.log("OrganisationUser updated!")
+      console.log("Organisation User updated!")
     } catch (error) {
       res.status(400).json(error)
     }
   }
 
-  public deleteOrganisationUser = async (req: any, res:Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+  public deleteOrganisationUser = async (req: Request , res:Response, next: NextFunction): Promise<void> => {
+    const {id} = req.params
     try {
-      const responseBody = await this.organisationUserService.deleteOrganisationUser(requestParams)
+      const responseBody = await this.organisationUserService.deleteOrganisationUser(id)
       res.status(200).json(responseBody)
-      console.log("OrganisationUser deleted!")
+      console.log("Organisation User deleted!")
     } catch (error) {
       res.status(400).json(error)
     }
   }
 
-  public sendOtp = async (req: any, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+  public sendOtp = async (req: Request , res: Response, next: NextFunction): Promise<void> => {
+    const {email_id} = req.params
     try {
-      const responseBody = await this.organisationUserService.sendOtp(requestParams)
+      const responseBody = await this.organisationUserService.sendOtp(email_id)
       res.status(200).json(responseBody)
     } catch (error: any) {
       res.status(400).json({success: false, message: error.message})
     }
   }
 
-  public verifyOtp = async (req: any, res: Response, next: NextFunction): Promise<void> => {
+  public verifyOtp = async (req: Request , res: Response, next: NextFunction): Promise<void> => {
     const requestBody = req.body
     try {
       const responseBody = await this.organisationUserService.verifyOtp(requestBody)
