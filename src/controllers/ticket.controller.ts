@@ -5,10 +5,10 @@ class TicketController {
   public ticketService = new TicketService()
 
   public getOrgTickets = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const {organisation_id} = req.params
+    const {id} = req.params
 
     try {
-      const responseBody = await this.ticketService.fetchOrgTickets(organisation_id)
+      const responseBody = await this.ticketService.fetchOrgTickets(id)
       res.status(200).json(responseBody)
       console.log("Tickets retrieved!")
     } catch (error) {

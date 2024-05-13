@@ -4,7 +4,7 @@ import OrganisationService from "../services/organisation.service";
 class OrganisationController {
   public organisationService = new OrganisationService()
 
-  public getOrganisations = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getOrganisations = async (req: Request<{}, {}, {}, {page: string, pageSize: string}>, res: Response, next: NextFunction): Promise<void> => {
     const {page, pageSize} = req.query
 
     try {

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import OrganisationUserService from "../services/organisationUser.service";
+import { Error } from "mongoose";
 
 class OrganisationUserController {
   public organisationUserService = new OrganisationUserService()
@@ -84,13 +85,13 @@ class OrganisationUserController {
     }
   }
 
-  public sendOtp = async (req: Request , res: Response, next: NextFunction): Promise<void> => {
+  public sendOtp = async (req: Request , res: Response, next: NextFunction) => {
     const {email_id} = req.params
     try {
       const responseBody = await this.organisationUserService.sendOtp(email_id)
-      res.status(200).json(responseBody)
+      return res.status(200).json(responseBody)
     } catch (error: any) {
-      res.status(400).json({success: false, message: error.message})
+      return res.status(400).json({success: false, message: error.message})
     }
   }
 

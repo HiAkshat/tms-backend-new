@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken"
 
 class OtpHelper {
   public sendOTP = async (email_id: string, otp: number) => {
-    console.log("INSIDE OTP")
     try {
       // Transporter setup for gmail (password is app password)
       const transporter = nodemailer.createTransport({
@@ -43,6 +42,9 @@ class OtpHelper {
   }
 
   public verifyOtp = async (otp: number, user: SystemUserType | OrganisationUserType) => {
+    console.log(user)
+    console.log(user.otp == otp)
+    console.log(user.otpExpiration && user.otpExpiration.getTime() > Date.now())
     try {
       if (user.otp == otp && user.otpExpiration && user.otpExpiration.getTime() > Date.now()) {
         const accessToken = jwt.sign({user}, "thisisthekey", { expiresIn: '5h' });

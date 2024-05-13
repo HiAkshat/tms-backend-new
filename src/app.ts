@@ -4,14 +4,17 @@ import bodyParser from "body-parser"
 import cors from "cors"
 
 import Verfication from './middlewares/verification';
+import Routes from './routes/routes';
+
+import { Request, Response } from 'express';
 
 class App {
   public app: express.Application
   public port: string | number
-  private routes: any
+  private routes: [Routes]
   private verification = new Verfication()
 
-  constructor(routes: any) {
+  constructor(routes: [Routes]) {
     this.port=3000
     this.app=express()
     this.routes = routes
@@ -29,7 +32,7 @@ class App {
   }
 
   public test() {
-    this.app.get("/", (req: Request, res: any) => {
+    this.app.get("/", (req: Request, res: Response) => {
       res.status(200).send("Hello World!");
     });
   }
@@ -49,8 +52,8 @@ class App {
     this.app.post("/api/verifyToken", this.verification.verifyToken)
   }
 
-  private initializeRoutes(routes: any){
-    routes.forEach((route: any) => {
+  private initializeRoutes(routes: [Routes]){
+    routes.forEach((route: Routes) => {
       this.app.use("/api", route.router)
     })
   }

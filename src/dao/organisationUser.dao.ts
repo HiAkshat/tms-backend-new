@@ -35,6 +35,19 @@ class OrganisationUserDao {
     return await OrganisationUserModel.findByIdAndUpdate(id, organisation_user, {new: true})
   }
 
+  public updateOtpDetails = async (email_id: string, otp_details:  {otp: number, otpExpiration: Date}) => {
+    console.log(email_id, otp_details)
+    return await OrganisationUserModel.updateOne(
+      {email_id: email_id},
+      {
+        $set: {
+          otp: otp_details.otp,
+          otpExpiration: otp_details.otpExpiration
+        }
+      }
+    )
+  }
+
   public deleteOrganisationUser = async (id: string) => {
     return await OrganisationUserModel.findByIdAndDelete(id)
   }

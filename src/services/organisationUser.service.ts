@@ -54,16 +54,13 @@ class OrganisationUserService {
       console.log(otp)
       var dt1 = (new Date()).getTime()
       
-      const newUserData = {
-        ...user,
-        otp,
+      const otp_details = {
+        otp: otp,
         otpExpiration: new Date(dt1+900000)
       }
   
-      await this.organisationUserDao.updateOrganisationUser(user._id.toString(), newUserData)
-  
-      const res = await this.otpHelper.sendOTP(user.email_id, otp)
-      return res
+      await this.organisationUserDao.updateOtpDetails(user.email_id, otp_details)
+      return await this.otpHelper.sendOTP(user.email_id, otp)
     } catch (error) {
       throw error
     }
