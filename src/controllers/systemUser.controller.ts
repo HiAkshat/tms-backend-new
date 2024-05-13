@@ -5,12 +5,8 @@ class SystemUserController {
   public systemUserService = new SystemUserService()
 
   public getSystemUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const requestQuery = req.query
-
     try {
-      console.log("HEYINCONTROLLER")
-
-      const responseBody = await this.systemUserService.fetchSystemUsers(requestQuery)
+      const responseBody = await this.systemUserService.fetchSystemUsers()
       res.status(200).json(responseBody)
       console.log("SystemUsers retrieved!")
     } catch (error) {
@@ -18,10 +14,10 @@ class SystemUserController {
     }
   }
 
-  public getSystemUser = async (req: Request<{}>, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+  public getSystemUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const {id} = req.params
     try {
-      const responseBody = await this.systemUserService.fetchSystemUser(requestParams)
+      const responseBody = await this.systemUserService.fetchSystemUser(id)
       res.status(200).json(responseBody)
       console.log("System user data retrieved!")
     } catch (error) {
@@ -30,9 +26,9 @@ class SystemUserController {
   }
 
   public getSystemUserByEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+    const {email_id} = req.params
     try {
-      const responseBody = await this.systemUserService.fetchSystemUserByEmail(requestParams)
+      const responseBody = await this.systemUserService.fetchSystemUserByEmail(email_id)
       res.status(200).json(responseBody)
       console.log("System user data retrieved!")
     } catch (error) {
@@ -41,9 +37,9 @@ class SystemUserController {
   }
 
   public addSystemUser = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestBody = req.body
+    const system_user = req.body
     try {
-      const responseBody = await this.systemUserService.postSystemUser(requestBody)
+      const responseBody = await this.systemUserService.postSystemUser(system_user)
       res.status(200).json(responseBody)
       console.log("System user added!")
     } catch (error) {
@@ -52,10 +48,10 @@ class SystemUserController {
   }
 
   public updateSystemUser = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestBody = req.body
-    const requestParams = req.params
+    const {id} = req.params
+    const system_user = req.body
     try {
-      const responseBody = await this.systemUserService.updateSystemUser(requestParams, requestBody)
+      const responseBody = await this.systemUserService.updateSystemUser(id, system_user)
       res.status(200).json(responseBody)
       console.log("System user updated!")
     } catch (error) {
@@ -64,9 +60,9 @@ class SystemUserController {
   }
 
   public deleteSystemUser = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+    const {id} = req.params
     try {
-      const responseBody = await this.systemUserService.deleteSystemUser(requestParams)
+      const responseBody = await this.systemUserService.deleteSystemUser(id)
       res.status(200).json(responseBody)
       console.log("System user deleted!")
     } catch (error) {
@@ -75,9 +71,9 @@ class SystemUserController {
   }
 
   public sendOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+    const {email_id} = req.params
     try {
-      const responseBody = await this.systemUserService.sendOtp(requestParams)
+      const responseBody = await this.systemUserService.sendOtp(email_id)
       res.status(200).json(responseBody)
     } catch (error: any) {
       res.status(400).json({success: false, message: error.message})

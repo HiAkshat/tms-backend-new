@@ -3,43 +3,44 @@ import OtpHelper from "../helpers/Otp.helper";
 import titleCase from "../helpers/titleCase.helper";
 
 import TitleCaseHelper from "../helpers/titleCase.helper";
+import SystemUserType from "../typings/systemUser";
 
 class SystemUserService {
   private systemUserDao = new SystemUserDao()
   private otpHelper = new OtpHelper()
 
-  public fetchSystemUsers = async (requestBody: Object) => {
-    console.log("HEYINSERVICE")
-
+  public fetchSystemUsers = async () => {
     return await this.systemUserDao.getSystemUsers()
   }
 
-  public fetchSystemUser = async (requestBody: Object) => {
-     return await this.systemUserDao.getSystemUser(requestBody)
+  public fetchSystemUser = async (id: string) => {
+     return await this.systemUserDao.getSystemUser(id)
   }
 
-  public fetchSystemUserByEmail = async (requestParams: Object) => {
-    return await this.systemUserDao.getSystemUserByEmail(requestParams)
+  public fetchSystemUserByEmail = async (email_id: string) => {
+    return await this.systemUserDao.getSystemUserByEmail(email_id)
   }
 
-  public postSystemUser = async (requestBody: any) => {
+  public postSystemUser = async (system_user: SystemUserType) => {
     const titleCaseHelper = new TitleCaseHelper()
-    requestBody.first_name = titleCaseHelper.titleCase(requestBody.first_name)
-    requestBody.last_name = titleCaseHelper.titleCase(requestBody.last_name)
-    return await this.systemUserDao.addSystemUser(requestBody)
+
+    system_user.first_name = titleCaseHelper.titleCase(system_user.first_name)
+    system_user.last_name = titleCaseHelper.titleCase(system_user.last_name)
+    
+    return await this.systemUserDao.addSystemUser(system_user)
   }
 
-  public updateSystemUser = async (requestParams: Object, requestBody: Object) => {
-    return await this.systemUserDao.updateSystemUser(requestParams, requestBody)
+  public updateSystemUser = async (id: string, system_user: SystemUserType) => {
+    return await this.systemUserDao.updateSystemUser(id, system_user)
   }
 
-  public deleteSystemUser = async (requestParams: Object) => {
-    return await this.systemUserDao.deleteSystemUser(requestParams)
+  public deleteSystemUser = async (id: string) => {
+    return await this.systemUserDao.deleteSystemUser(id)
   }
 
-  public sendOtp = async (requestParams: any) => {
+  public sendOtp = async (email_id: string) => {
     try {
-      const user = await this.fetchSystemUserByEmail(requestParams)
+      const user = await this.fetchSystemUserByEmail(email_id)
       if (!user){
         throw new Error("User not found!")
       }
@@ -48,16 +49,13 @@ class SystemUserService {
       console.log(otp)
       var dt1 = (new Date()).getTime()
       
-      // { email_id, first_name, last_name, dob, organisation, joining_date }
       const newUserData = {
-        email_id: user.email_id,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        ...user,
         otp,
         otpExpiration: new Date(dt1+900000)
       }
   
-      await this.systemUserDao.updateSystemUser({id: user._id}, newUserData)
+      await this.systemUserDao.updateSystemUser(user._id.toString(), newUserData)
       const res = await this.otpHelper.sendOTP(user.email_id, otp)
       return {res: res}
       
@@ -66,9 +64,9 @@ class SystemUserService {
     }
   }
 
-  public verifyOtp = async (requestBody: any) => {
+  public verifyOtp = async (requestBody: {email_id: string, otp: number}) => {
     try {
-      const user = await this.systemUserDao.getSystemUserByEmail(requestBody)
+      const user = await this.systemUserDao.getSystemUserByEmail(requestBody.email_id)
       if (!user) throw new Error("User not found!")
       const res = await this.otpHelper.verifyOtp(requestBody.otp, user)
       return res

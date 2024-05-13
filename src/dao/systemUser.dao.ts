@@ -3,31 +3,28 @@ import SystemUserType from "../typings/systemUser"
 
 class SystemUserDao {
   public getSystemUsers = async () => {
-    console.log("HEYINDAO")
     return await SystemUserModel.find({})
   }
 
-  public getSystemUser = async (requestBody: any) => {
-    return await SystemUserModel.findById(requestBody.id)
+  public getSystemUser = async (id: string) => {
+    return await SystemUserModel.findById(id)
   }
   
-  public getSystemUserByEmail = async (requestParams: any) => {
-    return await SystemUserModel.findOne({email_id: requestParams.email_id})
+  public getSystemUserByEmail = async (email_id: string) => {
+    return await SystemUserModel.findOne({email_id})
   }
 
-  public addSystemUser = async (requestBody: SystemUserType) => {
-    return await SystemUserModel.create(requestBody)
+  public addSystemUser = async (system_user: SystemUserType) => {
+    return await SystemUserModel.create(system_user)
   }
 
-  public updateSystemUser = async (requestParams: any, requestBody: any) => {
-    return await SystemUserModel.findByIdAndUpdate(requestParams.id, requestBody, {new: true})
+  public updateSystemUser = async (id: string, system_user: SystemUserType) => {
+    return await SystemUserModel.findByIdAndUpdate(id, system_user, {new: true})
   }
 
-  public deleteSystemUser = async (requestParams: any) => {
-    return await SystemUserModel.findByIdAndDelete(requestParams.id)
+  public deleteSystemUser = async (id: string) => {
+    return await SystemUserModel.findByIdAndDelete(id)
   }
-
-
 }
 
 export default SystemUserDao
