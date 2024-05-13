@@ -1,18 +1,19 @@
 import CommentDao from "../dao/comment.dao"
+import CommentType from "../typings/comment"
 
 class CommentService {
   private commentDao = new CommentDao()
 
-  public fetchComments = async (requestParams: Object) => {
-    return await this.commentDao.getComments(requestParams)
+  public fetchComments = async (ticket_id: string) => {
+    return await this.commentDao.getComments(ticket_id)
   }
 
-  public postComment = async (requestBody: Object) => {
-    return await this.commentDao.addCommment(requestBody)
+  public postComment = async (comment: CommentType) => {
+    return await this.commentDao.addCommment(comment)
   }
 
-  public deleteComment = async (requestParams: Object) => {
-    return await this.commentDao.deleteComment(requestParams)
+  public deleteComment = async (id: string) => {
+    return await this.commentDao.deleteComment(id)
   }
 }
 

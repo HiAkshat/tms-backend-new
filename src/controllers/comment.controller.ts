@@ -5,10 +5,10 @@ class CommentController {
   public commentService = new CommentService()
 
   public getComments = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+    const {ticket_id} = req.params
 
     try {
-      const responseBody = await this.commentService.fetchComments(requestParams)
+      const responseBody = await this.commentService.fetchComments(ticket_id)
       res.status(200).json(responseBody)
     } catch (error) {
       res.status(400).json({error})
@@ -16,9 +16,9 @@ class CommentController {
   }
 
   public addComment = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestBody = req.body
+    const ticket = req.body
     try {
-      const responseBody = await this.commentService.postComment(requestBody)
+      const responseBody = await this.commentService.postComment(ticket)
       res.status(200).json(responseBody)
       console.log("Comment added!")
     } catch (error) {
@@ -27,9 +27,9 @@ class CommentController {
   }
 
   public deleteComment = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
-    const requestParams = req.params
+    const {id} = req.params
     try {
-      const responseBody = await this.commentService.deleteComment(requestParams)
+      const responseBody = await this.commentService.deleteComment(id)
       res.status(200).json(responseBody)
       console.log("Comment deleted!")
     } catch (error) {

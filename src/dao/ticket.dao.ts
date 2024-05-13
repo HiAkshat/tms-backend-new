@@ -2,25 +2,24 @@ import TicketModel from "../models/ticket.model"
 import TicketType from "../typings/ticket"
 
 class TicketDao {
-  public getOrgTickets = async (requestParams: any) => {
-    console.log(requestParams)
-    return await TicketModel.find({organisation: requestParams.id}).populate('assignee').populate('reporter')
+  public getOrgTickets = async (organisation_id: string) => {
+    return await TicketModel.find({organisation: organisation_id}).populate('assignee').populate('reporter')
   }
 
-  public getTicket = async (requestParams: any) => {
-    return await TicketModel.findById(requestParams.id).populate('assignee').populate('reporter')
+  public getTicket = async (id: string) => {
+    return await TicketModel.findById(id).populate('assignee').populate('reporter')
   }
 
-  public addTicket = async (requestBody: any) => {
-    return await TicketModel.create(requestBody)
+  public addTicket = async (ticket: TicketType) => {
+    return await TicketModel.create(ticket)
   }
 
-  public updateTicket = async (requestParams: any, requestBody: any) => {
-    await TicketModel.findByIdAndUpdate(requestParams.id, requestBody, { new: true });
+  public updateTicket = async (id: string, ticket: TicketType) => {
+    await TicketModel.findByIdAndUpdate(id, ticket, { new: true });
   }
 
-  public deleteTicket = async (requestParams: any) => {
-    return await TicketModel.findByIdAndDelete(requestParams.id)
+  public deleteTicket = async (id: string) => {
+    return await TicketModel.findByIdAndDelete(id)
   }
 }
 

@@ -1,17 +1,18 @@
 import CommentModel from "../models/comment.model"
 import CommentType from "../typings/comment"
+import TicketType from "../typings/ticket"
 
 class CommentDao {
-  public getComments = async (requestParams: any) => {
-    return await CommentModel.find({ticket: requestParams.ticket_id}).populate('user')
+  public getComments = async (ticket: string) => {
+    return await CommentModel.find({ticket}).populate('user')
   }
 
-  public addCommment = async (requestBody: any) => {
-    return await CommentModel.create(requestBody)
+  public addCommment = async (comment: CommentType) => {
+    return await CommentModel.create(comment)
   }
 
-  public deleteComment = async (requestParams: any) => {
-    return await CommentModel.findByIdAndDelete(requestParams.id)
+  public deleteComment = async (id: string) => {
+    return await CommentModel.findByIdAndDelete(id)
   }
 }
 
