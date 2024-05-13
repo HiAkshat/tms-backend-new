@@ -4,7 +4,7 @@ import OrganisationUserService from "../services/organisationUser.service";
 class OrganisationUserController {
   public organisationUserService = new OrganisationUserService()
 
-  public getOrganisationUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getOrganisationUsers = async (req: any, res: Response, next: NextFunction): Promise<void> => {
     const requestQuery = req.query
 
     try {
@@ -16,7 +16,7 @@ class OrganisationUserController {
     }
   }
 
-  public getOrganisationUser = async (req: Request<{}>, res: Response, next: NextFunction): Promise<void> => {
+  public getOrganisationUser = async (req: any, res: Response, next: NextFunction): Promise<void> => {
     const requestParams = req.params
     try {
       const responseBody = await this.organisationUserService.fetchOrganisationUser(requestParams)
@@ -27,7 +27,7 @@ class OrganisationUserController {
     }
   }
 
-  public getOrganisationUserByOrgID = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getOrganisationUserByOrgID = async (req: any, res: Response, next: NextFunction): Promise<void> => {
     const requestParams = req.params
     try {
       const responseBody = await this.organisationUserService.fetchOrganisationUserByOrgID(requestParams)
@@ -38,7 +38,7 @@ class OrganisationUserController {
     }
   }
 
-  public getOrganisationUserByEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getOrganisationUserByEmail = async (req: any, res: Response, next: NextFunction): Promise<void> => {
     const requestParams = req.params
     try {
       const responseBody = await this.organisationUserService.fetchOrganisationUserByEmail(requestParams)
@@ -49,7 +49,7 @@ class OrganisationUserController {
     }
   }
 
-  public addOrganisationUser = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
+  public addOrganisationUser = async (req: any, res:Response, next: NextFunction): Promise<void> => {
     const requestBody = req.body
     try {
       const responseBody = await this.organisationUserService.postOrganisationUser(requestBody)
@@ -60,7 +60,7 @@ class OrganisationUserController {
     }
   }
 
-  public updateOrganisationUser = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
+  public updateOrganisationUser = async (req: any, res:Response, next: NextFunction): Promise<void> => {
     const requestBody = req.body
     const requestParams = req.params
     try {
@@ -72,7 +72,7 @@ class OrganisationUserController {
     }
   }
 
-  public deleteOrganisationUser = async (req: Request, res:Response, next: NextFunction): Promise<void> => {
+  public deleteOrganisationUser = async (req: any, res:Response, next: NextFunction): Promise<void> => {
     const requestParams = req.params
     try {
       const responseBody = await this.organisationUserService.deleteOrganisationUser(requestParams)
@@ -83,7 +83,7 @@ class OrganisationUserController {
     }
   }
 
-  public sendOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public sendOtp = async (req: any, res: Response, next: NextFunction): Promise<void> => {
     const requestParams = req.params
     try {
       const responseBody = await this.organisationUserService.sendOtp(requestParams)
@@ -93,7 +93,7 @@ class OrganisationUserController {
     }
   }
 
-  public verifyOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public verifyOtp = async (req: any, res: Response, next: NextFunction): Promise<void> => {
     const requestBody = req.body
     try {
       const responseBody = await this.organisationUserService.verifyOtp(requestBody)

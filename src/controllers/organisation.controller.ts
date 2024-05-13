@@ -9,6 +9,7 @@ class OrganisationController {
 
     try {
       const responseBody = await this.organisationService.fetchOrganisations(requestQuery)
+      
       res.status(200).json(responseBody)
     } catch (error) {
       res.status(400).json({error})

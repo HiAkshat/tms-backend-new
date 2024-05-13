@@ -3,10 +3,13 @@ import express from 'express';
 import bodyParser from "body-parser"
 import cors from "cors"
 
+import Verfication from './middlewares/verification';
+
 class App {
   public app: express.Application
   public port: string | number
   private routes: any
+  private verification = new Verfication()
 
   constructor(routes: any) {
     this.port=3000
@@ -43,6 +46,7 @@ class App {
     this.app.use(cookieParser())
 
     this.initializeRoutes(this.routes); 
+    this.app.post("/api/verifyToken", this.verification.verifyToken)
   }
 
   private initializeRoutes(routes: any){
