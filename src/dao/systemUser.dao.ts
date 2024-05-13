@@ -7,11 +7,11 @@ class SystemUserDao {
     return await SystemUserModel.find({})
   }
 
-  public getSystemUser = async (requestBody: {id: string}) => {
+  public getSystemUser = async (requestBody: any) => {
     return await SystemUserModel.findById(requestBody.id)
   }
   
-  public getSystemUserByEmail = async (requestParams: {email_id: string}) => {
+  public getSystemUserByEmail = async (requestParams: any) => {
     return await SystemUserModel.findOne({email_id: requestParams.email_id})
   }
 
@@ -19,11 +19,11 @@ class SystemUserDao {
     return await SystemUserModel.create(requestBody)
   }
 
-  public updateSystemUser = async (requestParams: {id: string}, requestBody: SystemUserType) => {
+  public updateSystemUser = async (requestParams: any, requestBody: any) => {
     return await SystemUserModel.findByIdAndUpdate(requestParams.id, requestBody, {new: true})
   }
 
-  public deleteSystemUser = async (requestParams: {id: string}) => {
+  public deleteSystemUser = async (requestParams: any) => {
     return await SystemUserModel.findByIdAndDelete(requestParams.id)
   }
 
