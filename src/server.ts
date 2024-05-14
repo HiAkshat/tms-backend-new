@@ -12,3 +12,6 @@ const app = new App([
 
 app.listen()
 app.test()
+
+const io = app.getIo()
+export {io}

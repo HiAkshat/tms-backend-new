@@ -5,6 +5,7 @@ export interface TicketType extends Document {
   description: string,
   assignee: string,
   reporter: string,
+  organisation: string,
   status: "To be picked", "In progress", "In testing", "Completed",
   due_date?: Date,
   files?: [{type: string}],

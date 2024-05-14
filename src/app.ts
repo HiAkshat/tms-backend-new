@@ -4,17 +4,20 @@ import bodyParser from "body-parser"
 import cors from "cors"
 
 import Verfication from './middlewares/verification';
-import CustomError from './middlewares/errorHandler';
 
 import Routes from './routes/routes';
 
 import { Request, Response } from 'express';
 import ErrorHandler from './middlewares/errorHandler';
 
+import { Server } from "socket.io"
+
 class App {
   public app: express.Application
+  public io : Server
   public port: string | number
   private routes: [Routes]
+  
   private verification = new Verfication()
   private errorHandler = new ErrorHandler()
 
@@ -24,15 +27,24 @@ class App {
     this.routes = routes
 
     this.initializeMiddlewares()
-  }
 
-  public listen() {
-    this.app.listen(this.port, ()=>{
+    const server = this.app.listen(this.port, ()=>{
       console.log(`=================================`);
       console.log(`======= ENV: Development =======`);
       console.log(`🚀 App listening on the port ${this.port}`);
       console.log(`=================================`);
     })
+  
+    this.io = new Server(server, {
+      cors: {
+        origin: "http://localhost:5173"
+      }
+    })
+    
+    this.io.listen(4000)
+  }
+  
+  public listen() {
   }
 
   public test() {
@@ -43,6 +55,10 @@ class App {
 
   public getServer() {
     return this.app
+  }
+
+  public getIo() {
+    return this.io
   }
 
   private initializeMiddlewares() {
