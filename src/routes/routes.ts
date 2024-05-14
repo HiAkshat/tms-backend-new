@@ -54,7 +54,7 @@ class Routes{
     this.router.post(`${prefix}/verifyOtp`, this.organisationUserController.verifyOtp)
     
     // DELETE
-    this.router.delete(`${prefix}/:id`, this.organisationUserController.deleteOrganisationUser)
+    this.router.put(`${prefix}/:id`, this.organisationUserController.deleteOrganisationUser)
     
     // PUT
     this.router.put(`${prefix}/:id`, this.organisationUserController.updateOrganisationUser)

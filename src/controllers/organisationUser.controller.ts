@@ -51,7 +51,7 @@ class OrganisationUserController {
   }
 
   public addOrganisationUser = async (req: Request , res:Response, next: NextFunction): Promise<void> => {
-    const {organisation_user} = req.body
+    const organisation_user = req.body
     try {
       const responseBody = await this.organisationUserService.postOrganisationUser(organisation_user)
       res.status(200).json(responseBody)

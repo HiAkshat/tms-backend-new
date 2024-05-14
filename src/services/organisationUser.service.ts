@@ -32,6 +32,11 @@ class OrganisationUserService {
     organisation_user.first_name = titleCaseHelper.titleCase(organisation_user.first_name)
     organisation_user.last_name = titleCaseHelper.titleCase(organisation_user.last_name)
 
+    organisation_user = {
+      ...organisation_user,
+      is_active: true
+    }
+
     return await this.organisationUserDao.addOrganisationUser(organisation_user)
   }
 

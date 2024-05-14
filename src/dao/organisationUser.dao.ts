@@ -8,11 +8,11 @@ class OrganisationUserDao {
     const pageSizeNum = parseInt(pageSize) || 10;
     const skip = (pageNum - 1) * pageSizeNum;
 
-    return await OrganisationUserModel.find({}).populate('organisation').skip(skip).limit(pageSizeNum)
+    return await OrganisationUserModel.find({is_active: true}).populate('organisation').skip(skip).limit(pageSizeNum)
   }
 
   public getTotalOrganisationUsers = async () => {
-    return await organisationUserModel.countDocuments({});
+    return await organisationUserModel.countDocuments({is_active: true});
   }
 
   public getOrganisationUser = async (id: string) => {
@@ -49,7 +49,14 @@ class OrganisationUserDao {
   }
 
   public deleteOrganisationUser = async (id: string) => {
-    return await OrganisationUserModel.findByIdAndDelete(id)
+    return await OrganisationUserModel.updateOne(
+      {_id: id},
+      {
+        $set: {
+          is_active: false
+        }
+      }
+    )
   }
 }
 

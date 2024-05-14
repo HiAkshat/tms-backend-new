@@ -6,7 +6,8 @@ export interface OrganisationUserType extends Document {
   organisation: Organisation,
   joining_date: Date,
   otp?: number,
-  otpExpiration?: Date
+  otpExpiration?: Date,
+  is_active?: boolean
 }
 
 export default OrganisationUserType

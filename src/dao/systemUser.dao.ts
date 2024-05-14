@@ -24,8 +24,8 @@ class SystemUserDao {
 
   public updateOtpDetails = async (email_id: string, otp_details:  {otp: number, otpExpiration: Date}) => {
     return await SystemUserModel.updateOne(
-      {email_id: email_id},
-      {
+        {email_id: email_id},
+        {
         $set: {
           otp: otp_details.otp,
           otpExpiration: otp_details.otpExpiration

@@ -10,6 +10,7 @@ const organisationUserSchema = new Schema({
   joining_date: { type: Date, required: true },
   otp: { type: Number }, // Store OTP
   otpExpiration: { type: Date }, // Store OTP expiration time
+  is_active: {type: Boolean},
 });
 
 const organisationUserModel = model<OrganisationUserType>("organisationuser", organisationUserSchema)
