@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import OrganisationService from "../services/organisation.service";
+import CustomError from "../utils/customError";
 
 class OrganisationController {
   public organisationService = new OrganisationService()
@@ -9,10 +10,10 @@ class OrganisationController {
 
     try {
       const responseBody = await this.organisationService.fetchOrganisations(page?.toString(), pageSize?.toString())
-      
       res.status(200).json(responseBody)
-    } catch (error) {
-      res.status(400).json({error})
+    } catch (error: any) {
+      const err = new CustomError(error.message, 400)
+      next(err)
     }
   }
 
@@ -45,8 +46,9 @@ class OrganisationController {
       const responseBody = await this.organisationService.updateOrganisation(id, organisation)
       res.status(200).json(responseBody)
       console.log("Organisation updated!")
-    } catch (error) {
-      res.status(400).json(error)
+    } catch (error: any) {
+      const err = new CustomError(error.message, 400)
+      next(err)
     }
   }
 

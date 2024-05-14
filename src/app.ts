@@ -4,15 +4,19 @@ import bodyParser from "body-parser"
 import cors from "cors"
 
 import Verfication from './middlewares/verification';
+import CustomError from './middlewares/errorHandler';
+
 import Routes from './routes/routes';
 
 import { Request, Response } from 'express';
+import ErrorHandler from './middlewares/errorHandler';
 
 class App {
   public app: express.Application
   public port: string | number
   private routes: [Routes]
   private verification = new Verfication()
+  private errorHandler = new ErrorHandler()
 
   constructor(routes: [Routes]) {
     this.port=3000
@@ -50,6 +54,8 @@ class App {
 
     this.initializeRoutes(this.routes); 
     this.app.post("/api/verifyToken", this.verification.verifyToken)
+
+    this.app.use(this.errorHandler.handleError)
   }
 
   private initializeRoutes(routes: [Routes]){
