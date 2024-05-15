@@ -6,6 +6,11 @@ import SystemUserController from "../controllers/systemUser.controller"
 import TicketController from "../controllers/ticket.controller"
 import CommentController from "../controllers/comment.controller"
 
+import Uploader from "../middlewares/uploader"
+import path from "path"
+
+import { Request, Response } from "express"
+
 class Routes{
   public router = Router()
 
@@ -22,6 +27,7 @@ class Routes{
   public ticketController = new TicketController()
   public commentController = new CommentController()
 
+  public uploader = new Uploader()
 
   constructor(){
     this.initializeOrganisationRoutes(`${this.organisationPath}`)
@@ -85,8 +91,31 @@ class Routes{
     this.router.get(`${prefix}/organisation/:id`, this.ticketController.getOrgTickets)
     this.router.get(`${prefix}/:id`, this.ticketController.getTicket)
 
+    this.router.get(`${prefix}/download/:filename`, async (req: Request, res: Response) => {
+      const filename = req.params.filename
+      console.log(req.params)
+      const filepath = path.join(__dirname, "../../public/uploads", filename)
+      console.log("HEYY")
+      console.log(filepath)
+
+      res.download(filepath, filename, err => {
+        if (err)
+          res.status(500).send("FILE NOT FOUND!")
+      })
+    })
+
     // POST
     this.router.post(`${prefix}/`, this.ticketController.addTicket)
+
+    this.router.post(`${prefix}/upload`, this.uploader.upload.single("file"), async (req: Request, res: Response) => {
+      if (!req.file) {
+        res.status(413).send(`File not uploaded!, Please attach jpeg file under 5 MB`);
+        return;
+      }
+      
+      // successfull completion
+      res.status(201).json({filename: req.file.filename, message: "Files uploaded successfully"});
+    })
 
     // PUT
     this.router.put(`${prefix}/:id`, this.ticketController.updateTicket)

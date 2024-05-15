@@ -14,7 +14,7 @@ class OrganisationDao {
     return await organisationModel.countDocuments({});
   }
 
-  public getOrganisation = async (id: string) => {
+  public getOrganisation =  async (id: string) => {
     return await organisationModel.findById(id)
   }
 

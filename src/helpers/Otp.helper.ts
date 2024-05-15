@@ -55,6 +55,8 @@ class OtpHelper {
       throw error
     }
   }
+
+  // public thro
 }
 
 export default OtpHelper
