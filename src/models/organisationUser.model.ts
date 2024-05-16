@@ -7,6 +7,7 @@ const organisationUserSchema = new Schema({
   last_name: { type: String, required: true },
   dob: { type: Date, required: true },
   organisation: { type: Schema.Types.ObjectId, ref: 'organisation', required: true },
+  // organisations: [{type: String}],
   joining_date: { type: Date, required: true },
   otp: { type: Number }, // Store OTP
   otpExpiration: { type: Date }, // Store OTP expiration time

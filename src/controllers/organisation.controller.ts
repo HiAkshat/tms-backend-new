@@ -23,8 +23,9 @@ class OrganisationController {
       const responseBody = await this.organisationService.fetchOrganisation(id)
       res.status(200).json(responseBody)
       console.log("Organisation data retrieved!")
-    } catch (error) {
-      res.status(400).json(error)
+    } catch (error: any) {
+      const err = new CustomError(error.message, 500)
+      next(err)
     }
   }
 
@@ -34,8 +35,9 @@ class OrganisationController {
       const responseBody = await this.organisationService.postOrganisation(organisation)
       res.status(200).json(responseBody)
       console.log("Organisation added!")
-    } catch (error) {
-      res.status(400).json(error)
+    } catch (error: any) {
+      const err = new CustomError(error.message, 500)
+      next(err)
     }
   }
 
@@ -58,8 +60,9 @@ class OrganisationController {
       const responseBody = await this.organisationService.deleteOrganisation(id)
       res.status(200).json(responseBody)
       console.log("Organisation deleted!")
-    } catch (error) {
-      res.status(400).json(error)
+    } catch (error: any) {
+      const err = new CustomError(error.message, 500)
+      next(err)
     }
   }
 }

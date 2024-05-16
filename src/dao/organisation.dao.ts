@@ -12,15 +12,14 @@ class OrganisationDao {
     }
 
     else return await organisationModel.find({is_active: true})
-
   }
 
   public getTotalOrganisations = async () => {
-    return await organisationModel.countDocuments({});
+    return await organisationModel.countDocuments({is_active: true});
   }
 
   public getOrganisation =  async (id: string) => {
-    return await organisationModel.findById(id)
+    return await organisationModel.findOne({unique_id: id})
   }
 
   public addOrganisation = async (organisation: OrganisationType) => {
@@ -28,12 +27,18 @@ class OrganisationDao {
   }
 
   public updateOrganisation = async (id: string, organisation: OrganisationType) => {
-    return await organisationModel.findByIdAndUpdate(id, organisation, {new: true})
+    // return await organisationModel.findByIdAndUpdate(id, organisation, {new: true})
+    return await organisationModel.updateOne(
+      {unique_id: id},
+      {
+        $set: organisation
+      }
+    )
   }
 
   public deleteOrganisation = async (id: string) => {
     return await organisationModel.updateOne(
-      {_id: id},
+      {unique_id: id},
       {
         $set: {
           is_active: false
