@@ -3,11 +3,16 @@ import OrganisationType from "../typings/organisation";
 
 class OrganisationDao {
   public getOrganisations = async (page: string, pageSize: string) => {
-    const pageNum = parseInt(page) || 1;
-    const pageSizeNum = parseInt(pageSize) || 10;
-    const skip = (pageNum - 1) * pageSizeNum;
+    if (page){
+      const pageNum = parseInt(page);
+      const pageSizeNum = parseInt(pageSize) || 10;
+      const skip = (pageNum - 1) * pageSizeNum;
+      
+      return await organisationModel.find({is_active: true}).skip(skip).limit(pageSizeNum)
+    }
 
-    return await organisationModel.find({}).skip(skip).limit(pageSizeNum)
+    else return await organisationModel.find({is_active: true})
+
   }
 
   public getTotalOrganisations = async () => {
@@ -27,7 +32,14 @@ class OrganisationDao {
   }
 
   public deleteOrganisation = async (id: string) => {
-    return await organisationModel.findByIdAndDelete(id)
+    return await organisationModel.updateOne(
+      {_id: id},
+      {
+        $set: {
+          is_active: false
+        }
+      }
+    )
   }
 }
 

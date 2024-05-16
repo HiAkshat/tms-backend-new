@@ -5,6 +5,8 @@ import OrganisationUserType from "../typings/organisationUser";
 import jwt from "jsonwebtoken"
 
 class OtpHelper {
+  private flag = true
+
   public sendOTP = async (email_id: string, otp: number) => {
     try {
       // Transporter setup for gmail (password is app password)
@@ -55,8 +57,6 @@ class OtpHelper {
       throw error
     }
   }
-
-  // public thro
 }
 
 export default OtpHelper

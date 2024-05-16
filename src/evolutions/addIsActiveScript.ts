@@ -23,7 +23,7 @@ async function main() {
     const db = client.db(dbName);
 
     // Update all documents in the collection
-    const result = await db.collection('organisationusers').updateMany({}, { $set: { isActive: newIsActiveValue } });
+    const result = await db.collection('organisations').updateMany({}, { $set: { is_active: newIsActiveValue } });
 
     console.log(`${result.modifiedCount} documents updated`);
   } catch (error: any) {

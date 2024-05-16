@@ -58,6 +58,18 @@ class OrganisationUserDao {
       }
     )
   }
+
+  public deleteOrganisationUserByOrgId = async (id: string) => {
+    return await organisationUserModel.updateMany(
+      {organisation: id},
+      {
+        $set: {
+          is_active: false
+        }
+      }
+    )
+  }
+ 
 }
 
 export default OrganisationUserDao

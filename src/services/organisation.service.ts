@@ -1,11 +1,14 @@
 import OrganisationDao from "../dao/organisation.dao";
 import OrganisationType from "../typings/organisation";
+import OrganisationUserDao from "../dao/organisationUser.dao";
 
 class OrganisationService {
   private organisationDao = new OrganisationDao()
+  private organisationUserDao = new OrganisationUserDao()
 
-  public fetchOrganisations = async (page: string = "1", pageSize:string ="10") => {
+  public fetchOrganisations = async (page: string = "", pageSize:string ="10") => {
     const totalEntries = await this.organisationDao.getTotalOrganisations()
+    
     const data = await this.organisationDao.getOrganisations(page, pageSize)
     return {totalEntries, data}
   }
@@ -23,6 +26,7 @@ class OrganisationService {
   }
 
   public deleteOrganisation = async (id: string) => {
+    await this.organisationUserDao.deleteOrganisationUserByOrgId(id)
     return await this.organisationDao.deleteOrganisation(id)
   }
 }
