@@ -8,9 +8,9 @@ class OrganisationUserService {
   private organisationUserDao = new OrganisationUserDao()
   private otpHelper = new OtpHelper()
 
-  public fetchOrganisationUsers = async (page: string="1", pageSize: string="10") => {
+  public fetchOrganisationUsers = async (page: string="1", pageSize: string="10", sortBy: string="updatedAt") => {
     const totalEntries = await this.organisationUserDao.getTotalOrganisationUsers()
-    const data = await this.organisationUserDao.getOrganisationUsers(page, pageSize)
+    const data = await this.organisationUserDao.getOrganisationUsers(page, pageSize, sortBy)
     return {totalEntries, data}
   }
 

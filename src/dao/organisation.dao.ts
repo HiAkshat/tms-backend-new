@@ -2,13 +2,13 @@ import organisationModel from "../models/organisation.model";
 import OrganisationType from "../typings/organisation";
 
 class OrganisationDao {
-  public getOrganisations = async (page: string, pageSize: string) => {
+  public getOrganisations = async (page: string, pageSize: string, sortColumn: string="-updatedAt") => {
     if (page){
       const pageNum = parseInt(page);
       const pageSizeNum = parseInt(pageSize) || 10;
       const skip = (pageNum - 1) * pageSizeNum;
       
-      return await organisationModel.find({is_active: true}).skip(skip).limit(pageSizeNum)
+      return await organisationModel.find({is_active: true}).sort(sortColumn).skip(skip).limit(pageSizeNum)
     }
 
     else return await organisationModel.find({is_active: true})

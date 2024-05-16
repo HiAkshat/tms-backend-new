@@ -6,7 +6,7 @@ const organisationSchema = new Schema({
   display_name: { type: String, required: true },
   total_tickets: { type: Number, default: 0},
   is_active: {type: Boolean}
-});
+}, {timestamps: true});
 
 const organisationModel = model<OrganisationType>("organisation", organisationSchema)
 export default organisationModel

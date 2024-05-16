@@ -5,11 +5,11 @@ import CustomError from "../utils/customError";
 class OrganisationController {
   public organisationService = new OrganisationService()
 
-  public getOrganisations = async (req: Request<{}, {}, {}, {page: string, pageSize: string}>, res: Response, next: NextFunction): Promise<void> => {
-    const {page, pageSize} = req.query
+  public getOrganisations = async (req: Request<{}, {}, {}, {page: string, pageSize: string, sortBy: string|undefined}>, res: Response, next: NextFunction): Promise<void> => {
+    const {page, pageSize, sortBy} = req.query
 
     try {
-      const responseBody = await this.organisationService.fetchOrganisations(page?.toString(), pageSize?.toString())
+      const responseBody = await this.organisationService.fetchOrganisations(page?.toString(), pageSize?.toString(), sortBy)
       res.status(200).json(responseBody)
     } catch (error: any) {
       const err = new CustomError(error.message, 400)

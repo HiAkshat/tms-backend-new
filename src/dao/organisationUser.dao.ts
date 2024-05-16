@@ -3,12 +3,12 @@ import OrganisationUserModel from "../models/organisationUser.model";
 import OrganisationUserType from "../typings/organisationUser";
 
 class OrganisationUserDao {
-  public getOrganisationUsers = async (page: string, pageSize: string) => {
+  public getOrganisationUsers = async (page: string, pageSize: string, sortBy: string) => {
     const pageNum = parseInt(page) || 1;
     const pageSizeNum = parseInt(pageSize) || 10;
     const skip = (pageNum - 1) * pageSizeNum;
 
-    return await OrganisationUserModel.find({is_active: true}).populate('organisation').skip(skip).limit(pageSizeNum)
+    return await OrganisationUserModel.find({is_active: true}).sort(sortBy).populate('organisation').skip(skip).limit(pageSizeNum)
   }
 
   public getTotalOrganisationUsers = async () => {

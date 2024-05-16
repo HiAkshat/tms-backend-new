@@ -6,10 +6,10 @@ class OrganisationService {
   private organisationDao = new OrganisationDao()
   private organisationUserDao = new OrganisationUserDao()
 
-  public fetchOrganisations = async (page: string = "", pageSize:string ="10") => {
+  public fetchOrganisations = async (page: string = "", pageSize:string ="10", sortBy: string="-updatedAt") => {
     const totalEntries = await this.organisationDao.getTotalOrganisations()
     
-    const data = await this.organisationDao.getOrganisations(page, pageSize)
+    const data = await this.organisationDao.getOrganisations(page, pageSize, sortBy)
     return {totalEntries, data}
   }
 
@@ -18,6 +18,11 @@ class OrganisationService {
   }
 
   public postOrganisation = async (organisation: OrganisationType) => {
+    organisation = {
+      ...organisation,
+      is_active: true
+    }
+
     return await this.organisationDao.addOrganisation(organisation)
   }
 
