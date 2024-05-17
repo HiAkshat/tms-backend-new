@@ -11,7 +11,9 @@ class OrganisationDao {
       return await organisationModel.find({is_active: true}).sort(sortColumn).skip(skip).limit(pageSizeNum)
     }
 
-    else return await organisationModel.find({is_active: true})
+    else {
+      return await organisationModel.find({is_active: true})
+    }
   }
 
   public getTotalOrganisations = async () => {

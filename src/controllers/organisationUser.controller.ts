@@ -9,6 +9,7 @@ class OrganisationUserController {
     const {page, pageSize, sortBy} = req.query
 
     try {
+      console.log("INSIDE CONTROLLER")
       const responseBody = await this.organisationUserService.fetchOrganisationUsers(page?.toString(), pageSize?.toString(), sortBy)
       res.status(200).json(responseBody)
       console.log("Organisation Users retrieved!")
@@ -61,6 +62,19 @@ class OrganisationUserController {
     }
   }
 
+  public addOrganisationToOrganisationUser = async (req: Request , res:Response, next: NextFunction): Promise<void> => {
+    const {id} = req.params
+    const {organisation_id, joining_date} = req.body
+
+    try {
+      const responseBody = await this.organisationUserService.addOrganisationToOrganisationUser(id, organisation_id, joining_date)
+      res.status(200).json(responseBody)
+      console.log("Organisation added to organisation user!")
+    } catch (error) {
+      res.status(400).json(error)
+    }
+  }
+
   public updateOrganisationUser = async (req: Request , res:Response, next: NextFunction): Promise<void> => {
     const {id} = req.params
     const organisation_user = req.body
@@ -69,6 +83,19 @@ class OrganisationUserController {
       const responseBody = await this.organisationUserService.updateOrganisationUser(id, organisation_user)
       res.status(200).json(responseBody)
       console.log("Organisation User updated!")
+    } catch (error) {
+      res.status(400).json(error)
+    }
+  }
+
+  public deleteOrganisationFromUser = async (req: Request , res:Response, next: NextFunction): Promise<void> => {
+    const {user_id} = req.params
+    const {organisation_id} = req.body
+
+    try {
+      const responseBody = await this.organisationUserService.deleteOrganisationFromUser(user_id, organisation_id)
+      res.status(200).json(responseBody)
+      console.log("Organisation delted from user!")
     } catch (error) {
       res.status(400).json(error)
     }

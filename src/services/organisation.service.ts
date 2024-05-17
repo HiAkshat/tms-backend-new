@@ -35,7 +35,9 @@ class OrganisationService {
   }
 
   public deleteOrganisation = async (id: string) => {
-    // await this.organisationUserDao.deleteOrganisationUserByOrgId(id)
+    console.log("BEFORE")
+    await this.organisationUserDao.deleteOrganisationFromAllUsers(id)
+    console.log("AFTER")
     const res = await this.organisationDao.deleteOrganisation(id)
     if (res.modifiedCount==0){
       throw new Error (`Organisation with ID ${id} does not exist`)

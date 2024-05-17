@@ -39,14 +39,21 @@ class Routes{
 
 
   private initializeOrganisationRoutes(prefix: string) {
+    // GET
     this.router.get(`${prefix}`, this.organisationController.getOrganisations)
     this.router.get(`${prefix}/:id`, this.organisationController.getOrganisation)
+
+    // POST
     this.router.post(`${prefix}`, this.organisationController.addOrganisation)
+
+    // PUT
     this.router.put(`${prefix}/:id`, this.organisationController.udpateOrganisation)
+    
+    // DELETE
     this.router.delete(`${prefix}/:id`, this.organisationController.deleteOrganisation)
   }
-
-
+  
+  
   private initializeOrganisationUserRoutes(prefix: string){
     // GET
     this.router.get(`${prefix}`, this.organisationUserController.getOrganisationUsers)
@@ -61,9 +68,11 @@ class Routes{
     
     // DELETE
     this.router.put(`${prefix}/:id`, this.organisationUserController.deleteOrganisationUser)
+    this.router.put(`${prefix}/removeOrganisation/:user_id`, this.organisationUserController.deleteOrganisationFromUser)
     
     // PUT
     this.router.put(`${prefix}/:id`, this.organisationUserController.updateOrganisationUser)
+    this.router.put(`${prefix}/addOrganisation/:id`, this.organisationUserController.addOrganisationToOrganisationUser)
   }
 
 

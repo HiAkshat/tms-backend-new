@@ -2,6 +2,7 @@ import { model, Schema, Document } from 'mongoose';
 import TicketType from '../typings/ticket';
 
 const ticketSchema = new Schema({
+  unique_id: {type: String, required: true},
   type: { type: String, enum: ['Story', 'Task', 'Bug'], required: true },
   key: { type: String, unique: true, required: true },
   summary: { type: String, required: true },
