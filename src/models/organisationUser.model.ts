@@ -13,7 +13,7 @@ const organisationUserSchema = new Schema({
   }],
   otp: { type: Number }, // Store OTP
   otpExpiration: { type: Date }, // Store OTP expiration time
-  is_active: {type: Boolean},
+  is_active: {type: Boolean, default: true, required: true},
 }, {timestamps: true});
 
 const organisationUserModel = model<OrganisationUserType>("organisationuser", organisationUserSchema)

@@ -7,13 +7,16 @@ const ticketSchema = new Schema({
   key: { type: String, unique: true, required: true },
   summary: { type: String, required: true },
   description: { type: String },
-  assignee: { type: Schema.Types.ObjectId, ref: 'organisationuser', required: true },
-  reporter: { type: Schema.Types.ObjectId, ref: 'organisationuser', required: true },
-  organisation: {type: Schema.Types.ObjectId, ref: 'organisation', required: true},
+  assignee_id: {type: String, required: true},
+  assignee_name: {type: String, required: true},
+  reporter_id: { type: String, required: true },
+  reporter_name: {type: String, required: true},
+  organisation: {type: String, required: true},
   status: { type: String, enum: ['To be picked', 'In progress', 'In testing', 'Completed'], default: 'To be picked', required: true },
   due_date: { type: Date },
   files: [{ type: String }],
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  is_active: { type: Boolean, default: true, required: true}
 }, {timestamps: true});
 
 const TicketModel = model<TicketType>("ticket", ticketSchema)

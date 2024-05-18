@@ -49,7 +49,7 @@ class OtpHelper {
     console.log(user.otpExpiration && user.otpExpiration.getTime() > Date.now())
     try {
       if (user.otp == otp && user.otpExpiration && user.otpExpiration.getTime() > Date.now()) {
-        const accessToken = jwt.sign({user}, "thisisthekey", { expiresIn: '5h' });
+        const accessToken = jwt.sign({user}, "thisisthekey", { expiresIn: '48h' });
         return { accessToken, valid: true, message: 'OTP is valid' }
       }
       else return { valid: false, message: 'OTP is invalid' }

@@ -1,12 +1,12 @@
 import TicketDao from "../dao/ticket.dao";
 import OrganisationDao from "../dao/organisation.dao";
 
+import { v4 as uuidv4 } from 'uuid';
 import TicketType from "../typings/ticket";
 
 class TicketService {
   private ticketDao = new TicketDao()
   private organisationDao = new OrganisationDao()
-
 
   public fetchOrgTickets = async (organisation_id: string) => {
     return await this.ticketDao.getOrgTickets(organisation_id)
@@ -18,10 +18,21 @@ class TicketService {
 
   public postTicket = async (ticket: TicketType) => {
     let org_data = await this.organisationDao.getOrganisation(ticket.organisation)
+    let ticket_key: string = ""
     if (org_data){
-      ticket.key = `${org_data.organisation_name}-${org_data.total_tickets+1}`
+      ticket_key = `${org_data.organisation_name}-${org_data.total_tickets+1}`
       org_data.total_tickets+=1
       await org_data.save()
+    }
+    else{
+      throw new Error("Organisation not found!")
+    }
+
+    ticket = {
+      ...ticket,
+      unique_id: uuidv4(),
+      key: ticket_key,
+      is_active: true
     }
 
     return await this.ticketDao.addTicket(ticket)

@@ -50,7 +50,6 @@ class OrganisationUserDao {
   }
 
   public updateOrganisationUser = async (id: string, organisation_user: OrganisationUserType) => {
-    // return await OrganisationUserModel.findByIdAndUpdate(id, organisation_user, {new: true})
     return await organisationUserModel.updateOne(
       {unique_id: id},
       {

@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import TicketService from "../services/ticket.service";
 import { io } from "../server";
-import OrganisationDao from "../dao/organisation.dao";
 
 class TicketController {
   public ticketService = new TicketService()
@@ -35,15 +34,16 @@ class TicketController {
       const responseBody = await this.ticketService.postTicket(ticket)
       console.log("Ticket added!")
       
-      // io.on('connection', (socket) => {
-      //   console.log('A client connected');
+      io.on('connection', (socket) => {
+        console.log('A client connected');
       
-      //   // Listen for 'newTicket' event from the sender
-      //   socket.on('newticket', (data) => {
-      //     // Broadcast 'newTicket' event to all clients except the sender
-      //     socket.broadcast.emit('newticket', {message: "A new ticket has been created!"});
-      //   });
-      // });
+        // Listen for 'newTicket' event from the sender
+        socket.on('newticket', (data) => {
+          // Broadcast 'newTicket' event to all clients except the sender
+          socket.broadcast.emit('newticket', {message: "A new ticket has been created!"});
+        });
+      });
+
       io.emit("newticket", {message: "A new ticket has been created!"})
 
       res.status(200).json(responseBody)
