@@ -4,8 +4,18 @@ import TicketType from "../typings/ticket"
 import mongoose from "mongoose"
 
 class TicketDao {
-  public getOrgTickets = async (organisation_id: string) => {
-    return await TicketModel.find({organisation: organisation_id, is_active: true})
+  public getOrgTickets = async (organisation_id: string, page: string, pageSize: string, sortBy: string) => {
+    if (page){
+      const pageNum = parseInt(page) || 1;
+      const pageSizeNum = parseInt(pageSize) || 10;
+      const skip = (pageNum - 1) * pageSizeNum;
+
+      return await TicketModel.find({organisation: organisation_id, is_active: true}).sort(sortBy).skip(skip).limit(pageSizeNum)
+    }
+  }
+
+  public getTotalOrgTickets = async (organisation_id: string) => {
+    return await TicketModel.countDocuments({organisation: organisation_id, is_active: true})
   }
 
   public getTicket = async (id: string) => {

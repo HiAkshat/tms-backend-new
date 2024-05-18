@@ -8,8 +8,10 @@ class TicketService {
   private ticketDao = new TicketDao()
   private organisationDao = new OrganisationDao()
 
-  public fetchOrgTickets = async (organisation_id: string) => {
-    return await this.ticketDao.getOrgTickets(organisation_id)
+  public fetchOrgTickets = async (organisation_id: string, page: string="", pageSize: string="10", sortBy: string="-updatedAt") => {
+    const totalEntries = await this.ticketDao.getTotalOrgTickets(organisation_id)
+    const data = await this.ticketDao.getOrgTickets(organisation_id, page, pageSize, sortBy)
+    return {totalEntries, data}
   }
 
   public fetchTicket = async (id: string) => {

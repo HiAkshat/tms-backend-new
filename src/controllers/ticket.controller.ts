@@ -5,11 +5,12 @@ import { io } from "../server";
 class TicketController {
   public ticketService = new TicketService()
 
-  public getOrgTickets = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getOrgTickets = async (req: Request<{id: string}, {}, {}, {page: string, pageSize: string, sortBy: string|undefined}>, res: Response, next: NextFunction): Promise<void> => {
     const {id} = req.params
+    const {page, pageSize, sortBy} = req.query
 
     try {
-      const responseBody = await this.ticketService.fetchOrgTickets(id)
+      const responseBody = await this.ticketService.fetchOrgTickets(id, page, pageSize, sortBy)
       res.status(200).json(responseBody)
       console.log("Tickets retrieved!")
     } catch (error) {

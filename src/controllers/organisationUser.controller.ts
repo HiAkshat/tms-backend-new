@@ -5,12 +5,11 @@ import { Error } from "mongoose";
 class OrganisationUserController {
   public organisationUserService = new OrganisationUserService()
 
-  public getOrganisationUsers = async (req: Request<{}, {}, {}, {page: string, pageSize: string, sortBy: string|undefined}> , res: Response, next: NextFunction): Promise<void> => {
-    const {page, pageSize, sortBy} = req.query
+  public getOrganisationUsers = async (req: Request<{}, {}, {}, {page: string, pageSize: string, sortBy: string|undefined, organisation: string}> , res: Response, next: NextFunction): Promise<void> => {
+    const {page, pageSize, sortBy, organisation, ...filters} = req.query
 
     try {
-      console.log("INSIDE CONTROLLER")
-      const responseBody = await this.organisationUserService.fetchOrganisationUsers(page?.toString(), pageSize?.toString(), sortBy)
+      const responseBody = await this.organisationUserService.fetchOrganisationUsers(page, pageSize, sortBy, organisation, filters)
       res.status(200).json(responseBody)
       console.log("Organisation Users retrieved!")
     } catch (error) {
