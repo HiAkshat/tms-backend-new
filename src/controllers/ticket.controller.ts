@@ -7,10 +7,10 @@ class TicketController {
 
   public getOrgTickets = async (req: Request<{id: string}, {}, {}, {page: string, pageSize: string, sortBy: string|undefined}>, res: Response, next: NextFunction): Promise<void> => {
     const {id} = req.params
-    const {page, pageSize, sortBy} = req.query
+    const {page, pageSize, sortBy, ...filters} = req.query
 
     try {
-      const responseBody = await this.ticketService.fetchOrgTickets(id, page, pageSize, sortBy)
+      const responseBody = await this.ticketService.fetchOrgTickets(id, page, pageSize, sortBy, filters)
       res.status(200).json(responseBody)
       console.log("Tickets retrieved!")
     } catch (error) {

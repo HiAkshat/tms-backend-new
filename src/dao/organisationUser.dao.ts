@@ -9,10 +9,8 @@ class OrganisationUserDao {
       const pageSizeNum = parseInt(pageSize) || 10;
       const skip = (pageNum - 1) * pageSizeNum;
 
-      console.log(filters)
-      console.log(organisation_id)
       if (organisation_id) return await OrganisationUserModel.find({...filters, is_active: true, "organisations.organisation_id": organisation_id}).sort(sortBy).skip(skip).limit(pageSizeNum)
-      else OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy).skip(skip).limit(pageSizeNum)
+      else return await OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy).skip(skip).limit(pageSizeNum)
     }
 
     return await OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy)
@@ -39,7 +37,7 @@ class OrganisationUserDao {
   }
 
   public getOrganisationUserByOrgID = async (id: string) => {
-    return await OrganisationUserModel.find({"organisations.organisation_id": id})
+    return await OrganisationUserModel.find({"organisations.organisation_id": id, is_active: true})
   }
 
   public addOrganisationUser = async (organisation_user: OrganisationUserType) => {
