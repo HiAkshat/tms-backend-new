@@ -6,14 +6,14 @@ import TitleCaseHelper from "../helpers/titleCase.helper";
 import OrganisationUserType, { RecieveOrganisationUserType } from "../typings/organisationUser";
 
 import { v4 as uuidv4 } from 'uuid';
+import CustomError from "../utils/customError";
 
 class OrganisationUserService {
   private organisationUserDao = new OrganisationUserDao()
   private otpHelper = new OtpHelper()
 
-  public fetchOrganisationUsers = async (page: string="", pageSize: string="10", sortBy: string="-updatedAt", organisation_id: string, filters: any) => {
-    const {start_dob, end_dob, ...otherFilters} = filters
-  
+  public fetchOrganisationUsers = async (page: string="", pageSize: string="10", sortBy: string="-updatedAt", filters: any) => {
+    const {start_dob, end_dob, organisations, ...otherFilters} = filters
     let updated_filters = {...otherFilters}
     if (start_dob && end_dob) {
       updated_filters.dob = {
@@ -22,9 +22,16 @@ class OrganisationUserService {
       };
     }
 
+    if (organisations){
+      updated_filters["organisations.organisation_id"] = {
+        $in: organisations
+      }
+    }
+    console.log(updated_filters)
+
     updated_filters = Object.keys(updated_filters).reduce((acc: any, key) => {
       if (updated_filters[key]) {
-          acc[key] = filters[key];
+          acc[key] = updated_filters[key];
 
           const caseInsensitiveKeys = ['first_name', 'last_name', "email_id"];
 
@@ -39,8 +46,8 @@ class OrganisationUserService {
 
     console.log(typeof updated_filters.organisation)
 
-    const totalEntries = await this.organisationUserDao.getTotalOrganisationUsers(organisation_id, updated_filters)
-    const data = await this.organisationUserDao.getOrganisationUsers(page, pageSize, sortBy, organisation_id, updated_filters)
+    const totalEntries = await this.organisationUserDao.getTotalOrganisationUsers(updated_filters)
+    const data = await this.organisationUserDao.getOrganisationUsers(page, pageSize, sortBy, updated_filters)
     return {totalEntries, data}
   }
 
@@ -83,6 +90,11 @@ class OrganisationUserService {
       organisation_id, joining_date
     }
 
+    const userAlreadyExistsInOrg = await this.organisationUserDao.getTotalOrganisationUsers({unique_id: id, "organisations.organisation_id": organisation_id})
+    if (userAlreadyExistsInOrg){
+      const err = new CustomError("User already exists!", 500)
+      throw err
+    }
     return await this.organisationUserDao.addOrganisationToOrganisationUser(id, data)
   }
 

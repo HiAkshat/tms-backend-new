@@ -10,32 +10,34 @@ class TicketService {
 
   public fetchOrgTickets = async (organisation_id: string, page: string="", pageSize: string="10", sortBy: string="-updatedAt", filters: any) => {
     const {start_due_date, end_due_date, ...otherFilters} = filters
-  
     let updated_filters = {...otherFilters}
     if (start_due_date && end_due_date) {
+      console.log(new Date(start_due_date), new Date(end_due_date))
       updated_filters.due_date = {
           $gte: new Date(start_due_date),
           $lte: new Date(end_due_date)
       };
+      console.log(updated_filters)
+
     }
-    
+
     updated_filters = Object.keys(updated_filters).reduce((acc: any, key) => {
       if (updated_filters[key]) {
-          acc[key] = filters[key];
+        acc[key] = updated_filters[key];
 
-          // const caseInsensitiveKeys = ['first_name', 'last_name', "email_id"];
+        // const caseInsensitiveKeys = ['first_name', 'last_name', "email_id"];
 
-          // if (caseInsensitiveKeys.includes(key) && typeof updated_filters[key] === 'string') {
-          //   acc[key] = { $regex: new RegExp(filters[key], 'i') } // 'i' makes the regex case-insensitive
-          // } else {
-          //     acc[key] = updated_filters[key];
-          // }
-        }
-        return acc;
+        // if (caseInsensitiveKeys.includes(key) && typeof updated_filters[key] === 'string') {
+        //   acc[key] = { $regex: new RegExp(filters[key], 'i') } // 'i' makes the regex case-insensitive
+        // } else {
+        //     acc[key] = updated_filters[key];
+        // }
+      }
+      return acc;
     }, {});
     
-    const totalEntries = await this.ticketDao.getTotalOrgTickets(organisation_id, filters)
-    const data = await this.ticketDao.getOrgTickets(organisation_id, page, pageSize, sortBy, filters)
+    const totalEntries = await this.ticketDao.getTotalOrgTickets(organisation_id, updated_filters)
+    const data = await this.ticketDao.getOrgTickets(organisation_id, page, pageSize, sortBy, updated_filters)
     return {totalEntries, data}
   }
 

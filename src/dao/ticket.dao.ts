@@ -4,22 +4,9 @@ import TicketType from "../typings/ticket"
 import mongoose from "mongoose"
 
 class TicketDao {
-  public getOrgTickets = async (organisation_id: string, page: string, pageSize: string, sortBy: string, filters: any) => {
-    // if (page){
-    //   const pageNum = parseInt(page) || 1;
-    //   const pageSizeNum = parseInt(pageSize) || 10;
-    //   const skip = (pageNum - 1) * pageSizeNum;
-
-    //   console.log(pageNum, skip)
-    //   if (organisation_id) return await OrganisationUserModel.find({...filters, is_active: true, "organisations.organisation_id": organisation_id}).sort(sortBy).skip(skip).limit(pageSizeNum)
-    //   else{
-    //     console.log("HEY")
-    //     return await OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy).skip(skip).limit(pageSizeNum)
-    //   }
-    // }
-
-    // return await OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy)   
-    
+  public getOrgTickets = async (organisation_id: string, page: string, pageSize: string, sortBy: string, filters: any) => {    
+    console.log("These filters will be applied!")
+    console.log(filters)
     if (page){
       const pageNum = parseInt(page) || 1;
       const pageSizeNum = parseInt(pageSize) || 10;

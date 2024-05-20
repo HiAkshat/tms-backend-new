@@ -3,21 +3,21 @@ import OrganisationUserModel from "../models/organisationUser.model";
 import OrganisationUserType from "../typings/organisationUser";
 
 class OrganisationUserDao {
-  public getOrganisationUsers = async (page: string, pageSize: string, sortBy: string, organisation_id: string, filters: any) => {
+  public getOrganisationUsers = async (page: string, pageSize: string, sortBy: string, filters: any) => {
+    console.log(filters)
     if (page){
       const pageNum = parseInt(page) || 1;
       const pageSizeNum = parseInt(pageSize) || 10;
       const skip = (pageNum - 1) * pageSizeNum;
 
-      if (organisation_id) return await OrganisationUserModel.find({...filters, is_active: true, "organisations.organisation_id": organisation_id}).sort(sortBy).skip(skip).limit(pageSizeNum)
-      else return await OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy).skip(skip).limit(pageSizeNum)
+      console.log(sortBy)
+      return await OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy).skip(skip).limit(pageSizeNum)
     }
 
     return await OrganisationUserModel.find({...filters, is_active: true}).sort(sortBy)
   }
 
-  public getTotalOrganisationUsers = async (organisation_id: string, filters: Object) => {
-    if (organisation_id) return await organisationUserModel.countDocuments({...filters, "organisations.organisation_id": organisation_id, is_active: true});
+  public getTotalOrganisationUsers = async (filters: Object) => {
     return await organisationUserModel.countDocuments({...filters, is_active: true});
   }
 

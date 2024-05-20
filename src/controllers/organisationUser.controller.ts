@@ -5,14 +5,15 @@ import { Error } from "mongoose";
 class OrganisationUserController {
   public organisationUserService = new OrganisationUserService()
 
-  public getOrganisationUsers = async (req: Request<{}, {}, {}, {page: string, pageSize: string, sortBy: string|undefined, organisation: string}> , res: Response, next: NextFunction): Promise<void> => {
-    const {page, pageSize, sortBy, organisation, ...filters} = req.query
+  public getOrganisationUsers = async (req: Request<{}, {}, {}, {page: string, pageSize: string, sortBy: string|undefined}> , res: Response, next: NextFunction): Promise<void> => {
+    const {page, pageSize, sortBy, ...filters} = req.query
 
     try {
-      const responseBody = await this.organisationUserService.fetchOrganisationUsers(page, pageSize, sortBy, organisation, filters)
+      const responseBody = await this.organisationUserService.fetchOrganisationUsers(page, pageSize, sortBy, filters)
       res.status(200).json(responseBody)
       console.log("Organisation Users retrieved!")
     } catch (error) {
+      console.log(error)
       res.status(400).json({error})
     }
   }
