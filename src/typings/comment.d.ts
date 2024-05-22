@@ -1,6 +1,7 @@
 export interface CommentType extends Document {
   ticket: string,
-  user: string,
+  user_id: string,
+  user_name: string,
   content: string
 }
 

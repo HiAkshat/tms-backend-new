@@ -2,8 +2,9 @@ import { model, Schema } from 'mongoose';
 import CommentType from '../typings/comment';
 
 const commentSchema = new Schema({
-  ticket: { type: Schema.Types.ObjectId, ref: 'ticket', required: true },
-  user: { type: Schema.Types.ObjectId, ref: 'organisationuser', required: true },
+  ticket: { type: String, required: true },
+  user_id: { type: String, required: true },
+  user_name: {type: String, required: true},
   content: { type: String, required: true },
 }, {timestamps: true});
 

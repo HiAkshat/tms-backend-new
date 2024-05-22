@@ -16,6 +16,13 @@ const ticketSchema = new Schema({
   due_date: { type: Date },
   files: [{ type: String }],
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  edit_history: [{
+    user_name: {type: String},
+    field: {type: String},
+    old_value: {type: String},
+    new_value: {type: String},
+    time: {type: Date}
+  }],
   is_active: { type: Boolean, default: true, required: true}
 }, {timestamps: true});
 

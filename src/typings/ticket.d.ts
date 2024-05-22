@@ -12,7 +12,14 @@ export interface TicketType extends Document {
   status: "To be picked", "In progress", "In testing", "Completed",
   due_date?: Date,
   files?: [{type: string}],
-  is_active: boolean
+  is_active: boolean,
+  edit_history: {
+    user_name: string,
+    field: string,
+    old_value: string,
+    new_value: string,
+    time: Date
+  }[]
 }
 
 export default TicketType

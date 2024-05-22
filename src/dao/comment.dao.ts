@@ -4,7 +4,7 @@ import TicketType from "../typings/ticket"
 
 class CommentDao {
   public getComments = async (ticket: string) => {
-    return await CommentModel.find({ticket}).populate('user')
+    return await CommentModel.find({ticket})
   }
 
   public addCommment = async (comment: CommentType) => {

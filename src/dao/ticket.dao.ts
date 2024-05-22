@@ -31,6 +31,7 @@ class TicketDao {
   }
 
   public updateTicket = async (id: string, ticket: TicketType) => {
+    console.log(ticket)
     return await TicketModel.updateOne(
       {unique_id: id},
       {
